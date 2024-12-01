@@ -2,5 +2,8 @@
 .idea
 .kotlin/
 build
-src/**/*.txt
 local.properties
+
+# Inputs
+# src/**/*.txt
+inputs/**/input.txt
