@@ -75,13 +75,14 @@ fun readInputAsCommaSeparatedInts(
 fun readGraph(
     day: Int,
     name: String,
-) = readInput(day, name).fold(mapOf<String, Set<String>>()) { currentGraph, edge ->
-    val (fromVertex, toVertex) = edge.split("-")
-    val fromNeighbours = currentGraph.getOrDefault(fromVertex, emptySet()) + toVertex
-    val toNeighbours = currentGraph.getOrDefault(toVertex, emptySet()) + fromVertex
+) = readInput(day, name)
+    .fold(mapOf<String, Set<String>>()) { currentGraph, edge ->
+        val (fromVertex, toVertex) = edge.split("-")
+        val fromNeighbours = currentGraph.getOrDefault(fromVertex, emptySet()) + toVertex
+        val toNeighbours = currentGraph.getOrDefault(toVertex, emptySet()) + fromVertex
 
-    currentGraph + mapOf(fromVertex to fromNeighbours, toVertex to toNeighbours)
-}.toMap()
+        currentGraph + mapOf(fromVertex to fromNeighbours, toVertex to toNeighbours)
+    }.toMap()
 
 /**
  * Constructs product of two sequences.

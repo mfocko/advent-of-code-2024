@@ -7,7 +7,7 @@ repos:
   - id: check-yaml
   - id: check-added-large-files
   repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
+  rev: v5.0.0
 
 - hooks:
   - args:
@@ -16,7 +16,7 @@ repos:
     exclude: ^\.idea/fileTemplates/.*\.kt$
     id: pretty-format-kotlin
   repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.12.0
+  rev: v2.14.0
 
 - hooks:
   - id: commitizen
@@ -24,4 +24,4 @@ repos:
     stages:
     - push
   repo: https://github.com/commitizen-tools/commitizen
-  rev: v3.15.0
+  rev: v4.0.0
