@@ -1,0 +1,24 @@
+repos:
+- hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-added-large-files
+  repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+
+- hooks:
+  - args:
+    - --autofix
+    files: \.kt$
+    id: pretty-format-kotlin
+  repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.12.0
+
+- hooks:
+  - id: commitizen
+  - id: commitizen-branch
+    stages:
+    - push
+  repo: https://github.com/commitizen-tools/commitizen
+  rev: v3.15.0
