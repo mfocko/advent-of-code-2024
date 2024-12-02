@@ -11,6 +11,7 @@ repos:
   - args:
     - --autofix
     files: \.kt$
+    exclude: ^\.idea/fileTemplates/.*\.kt$
     id: pretty-format-kotlin
   repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   rev: v2.12.0
