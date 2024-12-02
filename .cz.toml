@@ -16,7 +16,7 @@ example = "day(01): solve part 1"
 schema = "‹type›‹optional scope, e.g., day›: ‹message›\n\n‹body›"
 schema_pattern = """\
   (?s)\
-  (chore|ci|day|fix|feat)\
+  (chore|ci|day|fix|feat|docs)\
   (\\(\\S+\\))?!?:\
   ( [^\\n\\r]+)\
   ((\\n\\n.*)|(\\s*))?$\
@@ -26,7 +26,7 @@ schema_pattern = """\
 name = "change_type"
 message = "Select the type of change you are commiting"
 type = "list"
-choices = ["day", "feat", "fix", "chore", "ci"]
+choices = ["day", "feat", "fix", "docs", "chore", "ci"]
 
 [[tool.commitizen.customize.questions]]
 name = "scope"
