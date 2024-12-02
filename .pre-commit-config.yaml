@@ -1,7 +1,9 @@
 repos:
 - hooks:
   - id: trailing-whitespace
+    exclude: ^inputs/.*\.txt$
   - id: end-of-file-fixer
+    exclude: ^inputs/.*\.txt$
   - id: check-yaml
   - id: check-added-large-files
   repo: https://github.com/pre-commit/pre-commit-hooks
