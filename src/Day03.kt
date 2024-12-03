@@ -13,50 +13,44 @@ class Day03(
     )
 
     companion object {
-        private val MUL_REGEX = "mul\\((\\d+),(\\d+)\\)".toRegex()
         private val OP_REGEX = "(mul\\((\\d+),(\\d+)\\)|do\\(\\)|don't\\(\\))".toRegex()
     }
 
-    private val memory: String = readInputAsString(3, inputType)
-    private var multiplications: List<Pair<Int, Int>> = listOf()
-    private var allInstructions: List<Instruction> = listOf()
+    private val instructions: List<Instruction> =
+        OP_REGEX
+            .findAll(readInputAsString(3, inputType))
+            .map {
+                val (op, l, r) = it.destructured
 
-    override fun precompute() {
-        multiplications =
-            MUL_REGEX
-                .findAll(memory)
-                .map {
-                    val (x, y) = it.destructured
-                    x.toInt() to y.toInt()
-                }.toList()
+                val type =
+                    when {
+                        op.startsWith("mul") -> InstructionType.Mul
+                        op.startsWith("don't") -> InstructionType.Dont
+                        op.startsWith("do") -> InstructionType.Do
+                        else -> error("cannot have other operation")
+                    }
+                val value =
+                    when (type) {
+                        InstructionType.Mul -> l.toInt() * r.toInt()
+                        else -> 0
+                    }
 
-        allInstructions =
-            OP_REGEX
-                .findAll(memory)
-                .map {
-                    val (op, l, r) = it.destructured
+                Instruction(type, value)
+            }.toList()
 
-                    val type =
-                        when {
-                            op.startsWith("mul") -> InstructionType.Mul
-                            op.startsWith("don't") -> InstructionType.Dont
-                            op.startsWith("do") -> InstructionType.Do
-                            else -> error("cannot have other operation")
-                        }
-                    val value =
-                        when (type) {
-                            InstructionType.Mul -> l.toInt() * r.toInt()
-                            else -> 0
-                        }
-
-                    Instruction(type, value)
-                }.toList()
+    override fun precompute() { // no-op
     }
 
-    override fun part1(): Int = multiplications.sumOf { it.first * it.second }
+    override fun part1(): Int =
+        instructions.sumOf {
+            when (it.type) {
+                InstructionType.Mul -> it.value
+                else -> 0
+            }
+        }
 
     override fun part2(): Int =
-        allInstructions
+        instructions
             .fold(true to 0) { (running, sum), instr ->
                 var (running, sum) = running to sum
                 when (instr.type) {
