@@ -9,34 +9,30 @@ abstract class Day<Part1Answer, Part2Answer> {
     abstract fun precompute()
 
     /**
-     * Tests the first part of the challenge.
-     *
-     * @param part1Answer Expected answer to the 1º part of the challenge
-     */
-    fun test(part1Answer: Part1Answer) {
-        precompute()
-
-        print("Checking part 1:\t")
-        check(part1() == part1Answer)
-        println("[OK]")
-    }
-
-    /**
      * Tests both parts of the challenge.
      *
      * @param part1Answer Expected answer to the 1º part of the challenge;
      * also can be `null`, in such case, the 1º part is not being tested
-     * @param part2Answer Expected answer to the 2º part of the challenge
+     * @param part2Answer Expected answer to the 2º part of the challenge;
+     * also can be `null`, in such case, the 2º part is not being tested
      */
     fun test(
         part1Answer: Part1Answer?,
-        part2Answer: Part2Answer,
+        part2Answer: Part2Answer? = null,
     ) {
-        part1Answer?.let { test(it) }
+        precompute()
 
-        print("Checking part 2:\t")
-        check(part2() == part2Answer) { "Given answer: ${part2()}" }
-        println("[OK]")
+        part1Answer?.let {
+            print("Checking part 1:\t")
+            check(part1() == it) { "Given answer: ${part1()}" }
+            println("[OK]")
+        }
+
+        part2Answer?.let {
+            print("Checking part 2:\t")
+            check(part2() == it) { "Given answer: ${part2()}" }
+            println("[OK]")
+        }
     }
 
     /**
