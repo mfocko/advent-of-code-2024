@@ -38,7 +38,8 @@ class Day03(
                 Instruction(type, value)
             }.toList()
 
-    override fun precompute() { // no-op
+    override fun precompute() {
+        // no-op
     }
 
     override fun part1(): Int =

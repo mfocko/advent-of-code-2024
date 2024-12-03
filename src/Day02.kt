@@ -8,7 +8,7 @@ class Day02(
             }.toList()
 
     override fun precompute() {
-        // [TODO] Implement precomputation
+        // no-op
     }
 
     private fun isCorrect(report: List<Int>): Boolean {
