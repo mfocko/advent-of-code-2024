@@ -5,6 +5,13 @@ class Day04(
 
     companion object {
         private val DIRECTIONS = product(-1..1, -1..1).filter { (x, y) -> x != 0 || y != 0 }
+        private val NEIGHBORING_DIRECTIONS =
+            listOf(
+                (1 to 1) to (1 to -1),
+                (1 to -1) to (-1 to -1),
+                (-1 to -1) to (-1 to 1),
+                (-1 to 1) to (1 to 1),
+            )
     }
 
     override fun precompute() {
@@ -34,12 +41,7 @@ class Day04(
         product(wordSearch.indices, wordSearch[0].indices).sumOf { (y, x) ->
             when (wordSearch[y][x]) {
                 'A' ->
-                    listOf(
-                        (1 to 1) to (1 to -1),
-                        (1 to -1) to (-1 to -1),
-                        (-1 to -1) to (-1 to 1),
-                        (-1 to 1) to (1 to 1),
-                    ).count { (d0, d1) ->
+                    NEIGHBORING_DIRECTIONS.count { (d0, d1) ->
                         val (dy0, dx0) = d0
                         val (dy1, dx1) = d1
                         startsWith("MAS", y - dy0, x - dx0, dy0, dx0) && startsWith("MAS", y - dy1, x - dx1, dy1, dx1)
