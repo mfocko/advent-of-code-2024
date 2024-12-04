@@ -38,18 +38,18 @@ class Day04(
         }
 
     override fun part2(): Int =
-        product(wordSearch.indices, wordSearch[0].indices).sumOf { (y, x) ->
-            when (wordSearch[y][x]) {
-                'A' ->
-                    NEIGHBORING_DIRECTIONS.count { (d0, d1) ->
-                        val (dy0, dx0) = d0
-                        val (dy1, dx1) = d1
-                        startsWith("MAS", y - dy0, x - dx0, dy0, dx0) && startsWith("MAS", y - dy1, x - dx1, dy1, dx1)
-                    }
-
-                else -> 0
+        product(wordSearch.indices, wordSearch[0].indices)
+            .filter { (y, x) -> wordSearch[y][x] == 'A' }
+            .sumOf { (y, x) ->
+                NEIGHBORING_DIRECTIONS.count { (d0, d1) ->
+                    val (dy0, dx0) = d0
+                    val (dy1, dx1) = d1
+                    (
+                        startsWith("MAS", y - dy0, x - dx0, dy0, dx0) &&
+                            startsWith("MAS", y - dy1, x - dx1, dy1, dx1)
+                    )
+                }
             }
-        }
 }
 
 fun main() {
