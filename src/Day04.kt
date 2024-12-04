@@ -11,13 +11,14 @@ class Day04(
         // no-op
     }
 
-    private fun checkForXmas(
+    private fun startsWith(
+        word: String,
         y0: Int,
         x0: Int,
         dy: Int,
         dx: Int,
     ): Boolean =
-        "XMAS".withIndex().all { c ->
+        word.withIndex().all { c ->
             val (y, x) = y0 + dy * c.index to x0 + dx * c.index
             y in wordSearch.indices && x in wordSearch[y].indices && wordSearch[y][x] == c.value
         }
@@ -25,19 +26,8 @@ class Day04(
     override fun part1(): Int =
         product(wordSearch.indices, wordSearch[0].indices).sumOf { (y, x) ->
             DIRECTIONS.count { (dy, dx) ->
-                checkForXmas(y, x, dy, dx)
+                startsWith("XMAS", y, x, dy, dx)
             }
-        }
-
-    private fun checkForMas(
-        y0: Int,
-        x0: Int,
-        dy: Int,
-        dx: Int,
-    ): Boolean =
-        "MAS".withIndex().all { c ->
-            val (y, x) = y0 + dy * c.index to x0 + dx * c.index
-            y in wordSearch.indices && x in wordSearch[y].indices && wordSearch[y][x] == c.value
         }
 
     override fun part2(): Int =
@@ -52,7 +42,7 @@ class Day04(
                     ).count { (d0, d1) ->
                         val (dy0, dx0) = d0
                         val (dy1, dx1) = d1
-                        checkForMas(y - dy0, x - dx0, dy0, dx0) && checkForMas(y - dy1, x - dx1, dy1, dx1)
+                        startsWith("MAS", y - dy0, x - dx0, dy0, dx0) && startsWith("MAS", y - dy1, x - dx1, dy1, dx1)
                     }
 
                 else -> 0
