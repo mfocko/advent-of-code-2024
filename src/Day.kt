@@ -24,13 +24,13 @@ abstract class Day<Part1Answer, Part2Answer> {
 
         part1Answer?.let {
             print("Checking part 1:\t")
-            check(part1() == it) { "Given answer: ${part1()}" }
+            check(part1() == it) { "[KO] Given answer: ${part1()}" }
             println("[OK]")
         }
 
         part2Answer?.let {
             print("Checking part 2:\t")
-            check(part2() == it) { "Given answer: ${part2()}" }
+            check(part2() == it) { "[KO] Given answer: ${part2()}" }
             println("[OK]")
         }
     }
