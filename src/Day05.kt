@@ -4,10 +4,10 @@ class Day05(
     private val rules: Map<Int, MutableSet<Int>>
     private val updates: List<List<Int>>
 
-    companion object {
-        val UNVISITED = 0
-        val OPEN = 1
-        val DONE = 2
+    private enum class VertexState {
+        Unvisited,
+        Open,
+        Done,
     }
 
     init {
@@ -29,7 +29,7 @@ class Day05(
     private fun printGraph() {
         println("digraph G {")
 
-        rules.forEach { u, vs ->
+        rules.forEach { (u, vs) ->
             vs.forEach { v ->
                 println("\t$u -> $v")
             }
@@ -54,19 +54,19 @@ class Day05(
     // Toposort
     private fun fix(xs: Set<Int>): List<Int> {
         val ordering = mutableListOf<Int>()
-        val state = mutableMapOf<Int, Int>()
+        val state = mutableMapOf<Int, VertexState>()
 
         fun visit(u: Int) {
-            if (state.getOrDefault(u, UNVISITED) == DONE) {
+            if (state.getOrDefault(u, VertexState.Unvisited) == VertexState.Done) {
                 return
             }
-            check(state.getOrDefault(u, UNVISITED) != OPEN) { "We have found a loop ending in $u" }
+            check(state.getOrDefault(u, VertexState.Unvisited) != VertexState.Open) { "We have found a loop ending in $u" }
 
-            state[u] = OPEN
+            state[u] = VertexState.Open
             // ‹.intersect()›: Recursively search only the interesting successors
             rules.getOrDefault(u, emptySet()).intersect(xs).forEach { visit(it) }
 
-            state[u] = DONE
+            state[u] = VertexState.Done
             ordering.add(u)
         }
         xs.forEach { visit(it) }
