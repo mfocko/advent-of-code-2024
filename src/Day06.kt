@@ -6,19 +6,19 @@ class Day06(
     private val map: Array<CharArray> = readInput(6, inputType).map { it.toCharArray() }.toTypedArray()
 
     private val initialPosition: Vector =
-        let {
-            for (row in map.withIndex()) {
-                for (cell in row.value.withIndex()) {
-                    if (cell.value == '^') {
-                        return@let cell.index to row.index
-                    }
+        map
+            .withIndex()
+            .flatMap { row ->
+                row.value.withIndex().map { cell ->
+                    (cell.index to row.index) to cell.value
                 }
-            }
+            }.first { (_, cell) -> cell == '^' }
+            .let { (pos, _) -> pos }
 
-            error("there's always at least one guard")
+    private val route: Set<Vector> =
+        guard(null).let { (visited, _) ->
+            visited.map { (_, p) -> p }.toSet()
         }
-
-    private val route: Set<Vector> = guard(null).let { (visited, _) -> visited.map { (_, p) -> p }.toSet() }
 
     override fun precompute() {
         // no-op
