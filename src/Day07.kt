@@ -24,9 +24,6 @@ private data class Equation(
     }
 
     fun isSatisfiable(ops: List<(Long, Long) -> Long>): Boolean = canSatisfy(ops, 0L, 0, Long::plus)
-
-    val satisfiable: Boolean
-        get() = canSatisfy(listOf(Long::plus, Long::times), 0L, 0, Long::plus)
 }
 
 private fun String.toEquation(): Equation =
@@ -40,6 +37,9 @@ class Day07(
     private val equations: List<Equation> = readInput(7, inputType).map { it.toEquation() }.toList()
 
     companion object {
+        private val PART1_OPS: List<(Long, Long) -> Long> = listOf(Long::plus, Long::times)
+        private val PART2_OPS: List<(Long, Long) -> Long> = listOf(Long::plus, Long::times, ::concat)
+
         fun concat(
             x: Long,
             y: Long,
@@ -65,9 +65,11 @@ class Day07(
         // no-op
     }
 
-    override fun part1(): Long = equations.filter { it.satisfiable }.sumOf { it.target }
+    private fun getSum(ops: List<(Long, Long) -> Long>): Long = equations.filter { it.isSatisfiable(ops) }.sumOf { it.target }
 
-    override fun part2(): Long = equations.filter { it.isSatisfiable(listOf(Long::plus, Long::times, ::concat)) }.sumOf { it.target }
+    override fun part1(): Long = getSum(PART1_OPS)
+
+    override fun part2(): Long = getSum(PART2_OPS)
 }
 
 fun main() {
