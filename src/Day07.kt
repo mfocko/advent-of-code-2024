@@ -7,21 +7,15 @@ private data class Equation(
         result: Long,
         i: Int,
         op: (Long, Long) -> Long,
-    ): Boolean {
-        // used all operands
-        if (i >= operands.size) {
-            return result == target
+    ): Boolean =
+        when {
+            i >= operands.size -> result == target
+            result > target -> false
+            else ->
+                ops.any { nextOp ->
+                    canSatisfy(ops, op(result, operands[i]), i + 1, nextOp)
+                }
         }
-
-        // overshot
-        if (result > target) {
-            return false
-        }
-
-        return ops.any { nextOp ->
-            canSatisfy(ops, op(result, operands[i]), i + 1, nextOp)
-        }
-    }
 
     fun isSatisfiable(ops: List<(Long, Long) -> Long>): Boolean = canSatisfy(ops, 0L, 0, Long::plus)
 }
@@ -65,7 +59,10 @@ class Day07(
         // no-op
     }
 
-    private fun getSum(ops: List<(Long, Long) -> Long>): Long = equations.filter { it.isSatisfiable(ops) }.sumOf { it.target }
+    private fun getSum(ops: List<(Long, Long) -> Long>): Long =
+        equations
+            .filter { it.isSatisfiable(ops) }
+            .sumOf { it.target }
 
     override fun part1(): Long = getSum(PART1_OPS)
 
